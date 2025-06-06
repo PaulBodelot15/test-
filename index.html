@@ -55,9 +55,17 @@
     <main class="max-w-3xl mx-auto px-4 py-12">
         <section class="mb-12" id="todo">
             <h2 class="text-2xl font-semibold mb-4">To-do List</h2>
-            <form id="todo-form" class="flex mb-4 gap-2">
-                <input id="todo-input" type="text" placeholder="Nouvelle tâche" class="flex-1 border rounded-md px-3 py-2" />
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Ajouter</button>
+            <form id="todo-form" class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+                <input id="todo-title" type="text" placeholder="Titre" class="border rounded-md px-3 py-2" />
+                <input id="todo-category" type="text" placeholder="Catégorie" class="border rounded-md px-3 py-2" />
+                <select id="todo-priority" class="border rounded-md px-3 py-2">
+                    <option value="">Priorité</option>
+                    <option value="Haute">Haute</option>
+                    <option value="Moyenne">Moyenne</option>
+                    <option value="Basse">Basse</option>
+                </select>
+                <textarea id="todo-desc" placeholder="Description" class="border rounded-md px-3 py-2 md:col-span-2"></textarea>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 md:col-span-2">Ajouter</button>
             </form>
             <ul id="todo-list" class="space-y-2"></ul>
         </section>
