@@ -18,6 +18,9 @@
         }
       }
     </script>
+    <style>
+      html { scroll-behavior: smooth; }
+    </style>
 </head>
 <body class="font-sans bg-gray-50 text-gray-800">
     <header class="sticky top-0 z-50 bg-white shadow-md">
@@ -68,6 +71,7 @@
                 <button id="todo-submit" type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 md:col-span-2">Ajouter</button>
             </form>
             <ul id="todo-list" class="space-y-2"></ul>
+            <div id="task-alert" class="fixed top-4 right-4 bg-green-500 text-white px-3 py-2 rounded shadow opacity-0 transition-opacity"></div>
         </section>
 
         <section id="players" class="space-y-4">

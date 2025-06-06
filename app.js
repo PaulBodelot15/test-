@@ -9,6 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoDesc = document.getElementById('todo-desc');
     const todoList = document.getElementById('todo-list');
     const todoSubmit = document.getElementById('todo-submit');
+    const taskAlert = document.getElementById('task-alert');
+
+    function showAlert(message, color) {
+        taskAlert.textContent = message;
+        taskAlert.classList.remove('bg-green-500', 'bg-red-500');
+        taskAlert.classList.add(color);
+        taskAlert.classList.remove('opacity-0');
+        setTimeout(() => {
+            taskAlert.classList.add('opacity-0');
+        }, 2000);
+    }
     let editTaskIndex = null;
 
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
@@ -76,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tasks.splice(idx, 1);
                 saveTasks();
                 renderTasks();
+                showAlert('Tâche supprimée', 'bg-red-500');
             });
 
             li.appendChild(box);
@@ -97,12 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
             tasks[editTaskIndex] = { title, category, priority, description, done: tasks[editTaskIndex].done };
             editTaskIndex = null;
             todoSubmit.textContent = 'Ajouter';
+            showAlert('Tâche mise à jour', 'bg-green-500');
         } else {
             tasks.push({ title, category, priority, description, done: false });
+            showAlert('Tâche ajoutée', 'bg-green-500');
         }
         todoForm.reset();
         saveTasks();
         renderTasks();
+    });
+
+    function handleEnter(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            todoSubmit.click();
+        }
+    }
+    [todoTitle, todoCategory, todoPriority, todoDesc].forEach(el => {
+        el.addEventListener('keypress', handleEnter);
     });
 
     new Sortable(todoList, {
