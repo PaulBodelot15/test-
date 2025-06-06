@@ -165,7 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
         playersTableBody.innerHTML = '';
         players.forEach((p, idx) => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${p.name}</td><td>${p.rank}</td><td>${p.notes}</td>`;
+            const nameCell = document.createElement('td');
+            nameCell.textContent = p.name;
+            const rankCell = document.createElement('td');
+            rankCell.textContent = p.rank;
+            const notesCell = document.createElement('td');
+            notesCell.textContent = p.notes;
             const actions = document.createElement('td');
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Éditer';
@@ -184,6 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             actions.appendChild(editBtn);
             actions.appendChild(delBtn);
+            row.appendChild(nameCell);
+            row.appendChild(rankCell);
+            row.appendChild(notesCell);
             row.appendChild(actions);
             playersTableBody.appendChild(row);
         });
@@ -240,7 +248,14 @@ document.addEventListener('DOMContentLoaded', () => {
         trainingTableBody.innerHTML = '';
         getFilteredSessions().forEach((s, idx) => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${s.date}</td><td>${s.duration}</td><td>${s.type}</td><td>${s.notes}</td>`;
+            const dateCell = document.createElement('td');
+            dateCell.textContent = s.date;
+            const durCell = document.createElement('td');
+            durCell.textContent = s.duration;
+            const typeCell = document.createElement('td');
+            typeCell.textContent = s.type;
+            const notesCell = document.createElement('td');
+            notesCell.textContent = s.notes;
             const delCell = document.createElement('td');
             const delBtn = document.createElement('button');
             delBtn.textContent = '✕';
@@ -254,6 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateCharts();
             });
             delCell.appendChild(delBtn);
+            row.appendChild(dateCell);
+            row.appendChild(durCell);
+            row.appendChild(typeCell);
+            row.appendChild(notesCell);
             row.appendChild(delCell);
             trainingTableBody.appendChild(row);
         });
