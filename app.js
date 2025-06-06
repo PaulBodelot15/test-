@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoList = document.getElementById('todo-list');
 
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    if (tasks.length && typeof tasks[0] === 'string') {
+        tasks = tasks.map(t => ({ text: t, done: false }));
+    }
 
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -16,14 +19,36 @@ document.addEventListener('DOMContentLoaded', () => {
         todoList.innerHTML = '';
         tasks.forEach((t, idx) => {
             const li = document.createElement('li');
-            li.textContent = t;
+            li.className = 'flex items-center justify-between bg-white border rounded-md px-3 py-2 shadow-sm hover:shadow transition';
+
+            const box = document.createElement('input');
+            box.type = 'checkbox';
+            box.checked = t.done;
+            box.className = 'h-4 w-4 text-blue-600 border-gray-300 rounded';
+            box.addEventListener('change', () => {
+                tasks[idx].done = box.checked;
+                saveTasks();
+                renderTasks();
+            });
+
+            const span = document.createElement('span');
+            span.className = 'flex-1 ml-2';
+            span.textContent = t.text;
+            if (t.done) {
+                span.classList.add('line-through', 'text-gray-400');
+            }
+
             const btn = document.createElement('button');
             btn.textContent = '✕';
+            btn.className = 'ml-2 text-red-500 hover:text-red-700';
             btn.addEventListener('click', () => {
                 tasks.splice(idx, 1);
                 saveTasks();
                 renderTasks();
             });
+
+            li.appendChild(box);
+            li.appendChild(span);
             li.appendChild(btn);
             todoList.appendChild(li);
         });
@@ -33,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const value = todoInput.value.trim();
         if (value) {
-            tasks.push(value);
+            tasks.push({ text: value, done: false });
             todoInput.value = '';
             saveTasks();
             renderTasks();
