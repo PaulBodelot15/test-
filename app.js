@@ -3,12 +3,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     // To-do list
     const todoForm = document.getElementById('todo-form');
-    const todoInput = document.getElementById('todo-input');
+    const todoTitle = document.getElementById('todo-title');
+    const todoCategory = document.getElementById('todo-category');
+    const todoPriority = document.getElementById('todo-priority');
+    const todoDesc = document.getElementById('todo-desc');
     const todoList = document.getElementById('todo-list');
 
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     if (tasks.length && typeof tasks[0] === 'string') {
-        tasks = tasks.map(t => ({ text: t, done: false }));
+        tasks = tasks.map(t => ({ title: t, category: '', priority: 'Moyenne', description: '', done: false }));
+    } else if (tasks.length && tasks[0].text) {
+        tasks = tasks.map(t => ({ title: t.text, category: '', priority: 'Moyenne', description: '', done: t.done || false }));
     }
 
     function saveTasks() {
@@ -19,23 +24,35 @@ document.addEventListener('DOMContentLoaded', () => {
         todoList.innerHTML = '';
         tasks.forEach((t, idx) => {
             const li = document.createElement('li');
-            li.className = 'flex items-center justify-between bg-white border rounded-md px-3 py-2 shadow-sm hover:shadow transition';
+            li.className = 'flex items-start justify-between bg-white border rounded-md px-3 py-2 shadow-sm hover:shadow transition';
 
             const box = document.createElement('input');
             box.type = 'checkbox';
             box.checked = t.done;
-            box.className = 'h-4 w-4 text-blue-600 border-gray-300 rounded';
+            box.className = 'mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded';
             box.addEventListener('change', () => {
                 tasks[idx].done = box.checked;
                 saveTasks();
                 renderTasks();
             });
 
-            const span = document.createElement('span');
-            span.className = 'flex-1 ml-2';
-            span.textContent = t.text;
+            const info = document.createElement('div');
+            info.className = 'flex-1 ml-2';
+            const title = document.createElement('div');
+            title.textContent = t.title;
             if (t.done) {
-                span.classList.add('line-through', 'text-gray-400');
+                title.classList.add('line-through', 'text-gray-400');
+            }
+            const meta = document.createElement('div');
+            meta.className = 'text-sm text-gray-500';
+            meta.textContent = `${t.category} \u2022 ${t.priority}`;
+            info.appendChild(title);
+            info.appendChild(meta);
+            if (t.description) {
+                const desc = document.createElement('div');
+                desc.className = 'text-sm';
+                desc.textContent = t.description;
+                info.appendChild(desc);
             }
 
             const btn = document.createElement('button');
@@ -48,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             li.appendChild(box);
-            li.appendChild(span);
+            li.appendChild(info);
             li.appendChild(btn);
             todoList.appendChild(li);
         });
@@ -56,13 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     todoForm.addEventListener('submit', e => {
         e.preventDefault();
-        const value = todoInput.value.trim();
-        if (value) {
-            tasks.push({ text: value, done: false });
-            todoInput.value = '';
-            saveTasks();
-            renderTasks();
-        }
+        const title = todoTitle.value.trim();
+        const category = todoCategory.value.trim();
+        const priority = todoPriority.value;
+        const description = todoDesc.value.trim();
+        if (!title || !category || !priority) return;
+        tasks.push({ title, category, priority, description, done: false });
+        todoForm.reset();
+        saveTasks();
+        renderTasks();
     });
 
     new Sortable(todoList, {
