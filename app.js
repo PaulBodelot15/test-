@@ -352,4 +352,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
         calendar.render();
     }
+
+    // Dashboard on index.html
+    const dashboard = document.getElementById('dashboard');
+    const weeklyList = document.getElementById('weekly-sessions');
+    if (dashboard) {
+        function renderDashboard() {
+            const tasksData = JSON.parse(localStorage.getItem('tasks') || '[]');
+            const sessionsData = JSON.parse(localStorage.getItem('sessions') || '[]');
+            const playersData = JSON.parse(localStorage.getItem('players') || '[]');
+
+            document.getElementById('metric-sessions').textContent = sessionsData.length;
+
+            const totalMinutes = sessionsData.reduce((sum, s) => {
+                const m = parseInt(s.duration, 10);
+                return sum + (isNaN(m) ? 0 : m);
+            }, 0);
+            document.getElementById('metric-time').textContent = totalMinutes + ' min';
+
+            const tasksInProgress = tasksData.filter(t => !t.done).length;
+            document.getElementById('metric-tasks').textContent = tasksInProgress;
+
+            document.getElementById('metric-players').textContent = playersData.length;
+
+            if (weeklyList) {
+                const weekAgo = Date.now() - 7 * 86400000;
+                const recent = sessionsData
+                    .filter(s => new Date(s.date).getTime() >= weekAgo)
+                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+                weeklyList.innerHTML = '';
+                recent.forEach(s => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center gap-2';
+                    const type = document.createElement('span');
+                    type.className = 'bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm';
+                    type.textContent = s.type;
+                    const dur = document.createElement('span');
+                    dur.className = 'bg-green-100 text-green-800 px-2 py-1 rounded text-sm';
+                    dur.textContent = s.duration;
+                    const player = document.createElement('span');
+                    player.className = 'bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm';
+                    player.textContent = s.notes || 'N/A';
+                    const date = document.createElement('span');
+                    date.className = 'ml-auto text-sm text-gray-500';
+                    date.textContent = s.date;
+                    li.append(type, dur, player, date);
+                    weeklyList.appendChild(li);
+                });
+            }
+        }
+        renderDashboard();
+    }
 });
