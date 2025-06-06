@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoPriority = document.getElementById('todo-priority');
     const todoDesc = document.getElementById('todo-desc');
     const todoList = document.getElementById('todo-list');
+    const todoSubmit = document.getElementById('todo-submit');
+    let editTaskIndex = null;
 
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     if (tasks.length && typeof tasks[0] === 'string') {
@@ -55,6 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 info.appendChild(desc);
             }
 
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Éditer';
+            editBtn.className = 'ml-2 text-blue-500 hover:text-blue-700';
+            editBtn.addEventListener('click', () => {
+                todoTitle.value = t.title;
+                todoCategory.value = t.category;
+                todoPriority.value = t.priority;
+                todoDesc.value = t.description;
+                editTaskIndex = idx;
+                todoSubmit.textContent = 'Mettre à jour';
+            });
+
             const btn = document.createElement('button');
             btn.textContent = '✕';
             btn.className = 'ml-2 text-red-500 hover:text-red-700';
@@ -66,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             li.appendChild(box);
             li.appendChild(info);
+            li.appendChild(editBtn);
             li.appendChild(btn);
             todoList.appendChild(li);
         });
@@ -78,7 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const priority = todoPriority.value;
         const description = todoDesc.value.trim();
         if (!title || !category || !priority) return;
-        tasks.push({ title, category, priority, description, done: false });
+        if (editTaskIndex !== null) {
+            tasks[editTaskIndex] = { title, category, priority, description, done: tasks[editTaskIndex].done };
+            editTaskIndex = null;
+            todoSubmit.textContent = 'Ajouter';
+        } else {
+            tasks.push({ title, category, priority, description, done: false });
+        }
         todoForm.reset();
         saveTasks();
         renderTasks();
@@ -156,6 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Training journal
     const trainingForm = document.getElementById('training-form');
     const trainingTableBody = document.querySelector('#training-table tbody');
+    const filterRange = document.getElementById('filter-range');
+    const filterType = document.getElementById('filter-type');
 
     let sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
 
@@ -163,16 +186,32 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('sessions', JSON.stringify(sessions));
     }
 
+    function getFilteredSessions() {
+        let data = [...sessions];
+        if (filterRange.value) {
+            const days = parseInt(filterRange.value, 10);
+            const limit = Date.now() - days * 86400000;
+            data = data.filter(s => new Date(s.date).getTime() >= limit);
+        }
+        if (filterType.value !== 'all') {
+            data = data.filter(s => s.type === filterType.value);
+        }
+        return data;
+    }
+
     function renderSessions() {
         trainingTableBody.innerHTML = '';
-        sessions.forEach((s, idx) => {
+        getFilteredSessions().forEach((s, idx) => {
             const row = document.createElement('tr');
             row.innerHTML = `<td>${s.date}</td><td>${s.duration}</td><td>${s.type}</td><td>${s.notes}</td>`;
             const delCell = document.createElement('td');
             const delBtn = document.createElement('button');
             delBtn.textContent = '✕';
             delBtn.addEventListener('click', () => {
-                sessions.splice(idx, 1);
+                const index = sessions.indexOf(s);
+                if (index !== -1) {
+                    sessions.splice(index, 1);
+                }
                 saveSessions();
                 renderSessions();
                 updateCharts();
@@ -197,42 +236,38 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCharts();
     });
 
+    filterRange.addEventListener('change', () => {
+        renderSessions();
+        updateCharts();
+    });
+    filterType.addEventListener('change', () => {
+        renderSessions();
+        updateCharts();
+    });
+
     renderSessions();
 
     // Charts
-    const sessionsCtx = document.getElementById('sessions-chart').getContext('2d');
-    const typesCtx = document.getElementById('types-chart').getContext('2d');
-    let sessionsChart = null;
-    let typesChart = null;
+    const progressCtx = document.getElementById('progressChart').getContext('2d');
+    let progressChart = null;
 
     function updateCharts() {
         const sessionsPerMonth = {};
-        const typeCount = {};
-        sessions.forEach(s => {
+        getFilteredSessions().forEach(s => {
             const month = s.date.substring(0,7); // YYYY-MM
             sessionsPerMonth[month] = (sessionsPerMonth[month] || 0) + 1;
-            typeCount[s.type] = (typeCount[s.type] || 0) + 1;
         });
         const months = Object.keys(sessionsPerMonth).sort();
         const sessionsData = months.map(m => sessionsPerMonth[m]);
 
-        if (sessionsChart) sessionsChart.destroy();
-        sessionsChart = new Chart(sessionsCtx, {
+        if (progressChart) progressChart.destroy();
+        progressChart = new Chart(progressCtx, {
             type: 'line',
             data: {
                 labels: months,
                 datasets: [{ label: 'Séances', data: sessionsData, fill: false, borderColor: '#3b82f6' }]
             },
             options: { scales: { y: { beginAtZero: true } } }
-        });
-
-        const types = Object.keys(typeCount);
-        const typeData = types.map(t => typeCount[t]);
-        if (typesChart) typesChart.destroy();
-        typesChart = new Chart(typesCtx, {
-            type: 'pie',
-            data: { labels: types, datasets: [{ data: typeData }] },
-            options: {}
         });
     }
 
