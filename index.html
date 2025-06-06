@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -20,6 +21,7 @@
     </script>
     <style>
       html { scroll-behavior: smooth; }
+      #calendar { max-width: 100%; margin: 0 auto; }
     </style>
 </head>
 <body class="font-sans bg-gray-50 text-gray-800">
@@ -30,6 +32,7 @@
                 <a href="#todo" class="text-gray-600 hover:text-gray-900">Tâches</a>
                 <a href="#players" class="text-gray-600 hover:text-gray-900">Joueurs</a>
                 <a href="#history" class="text-gray-600 hover:text-gray-900">Entraînements</a>
+                <a href="#schedule" class="text-gray-600 hover:text-gray-900">Planning</a>
                 <a href="#progress" class="text-gray-600 hover:text-gray-900">Progression</a>
             </nav>
             <button id="menu-btn" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Menu">
@@ -40,6 +43,7 @@
             <a href="#todo" class="block py-1 text-gray-600 hover:text-gray-900">Tâches</a>
             <a href="#players" class="block py-1 text-gray-600 hover:text-gray-900">Joueurs</a>
             <a href="#history" class="block py-1 text-gray-600 hover:text-gray-900">Entraînements</a>
+            <a href="#schedule" class="block py-1 text-gray-600 hover:text-gray-900">Planning</a>
             <a href="#progress" class="block py-1 text-gray-600 hover:text-gray-900">Progression</a>
         </div>
     </header>
@@ -139,6 +143,11 @@
             </div>
         </section>
 
+        <section id="schedule" class="space-y-4">
+            <h2 class="text-2xl font-semibold">Planning</h2>
+            <div id="calendar"></div>
+        </section>
+
         <section id="progress" class="space-y-4">
             <h2 class="text-2xl font-semibold">Progression</h2>
             <canvas id="progressChart" height="200"></canvas>
@@ -151,6 +160,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="app.js"></script>
     <script>
         document.getElementById('menu-btn').addEventListener('click', () => {

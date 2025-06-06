@@ -1,6 +1,9 @@
 // Simple client-side logic for Tennis Tracker
 
 document.addEventListener('DOMContentLoaded', () => {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
     // To-do list
     const todoForm = document.getElementById('todo-form');
     const todoTitle = document.getElementById('todo-title');
@@ -113,6 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             tasks.push({ title, category, priority, description, done: false });
             showAlert('Tâche ajoutée', 'bg-green-500');
+            if (priority === 'Haute' && Notification.permission === 'granted') {
+                new Notification('Tâche urgente', { body: title });
+            }
         }
         todoForm.reset();
         saveTasks();
@@ -296,4 +302,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     updateCharts();
+
+    // Schedule calendar
+    const calendarEl = document.getElementById('calendar');
+    if (calendarEl) {
+        let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+
+        function saveCalendar() {
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+        }
+
+        function syncEvents() {
+            calendarEvents = calendar.getEvents().map(e => ({
+                title: e.title,
+                start: e.startStr,
+                end: e.endStr
+            }));
+            saveCalendar();
+        }
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            editable: true,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek'
+            },
+            events: calendarEvents,
+            dateClick(info) {
+                const title = prompt('Titre de la séance');
+                if (title) {
+                    calendar.addEvent({ title, start: info.dateStr });
+                    syncEvents();
+                }
+            },
+            eventDrop: syncEvents,
+            eventResize: syncEvents
+        });
+
+        calendar.render();
+    }
 });
