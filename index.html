@@ -4,52 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tennis Tracker</title>
-    <style>
-        body {
-            font-family: "Inter", "SF Pro", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
-            color: #333;
-        }
-        header {
-            background: #fff;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #ccc;
-        }
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 10px;
-        }
-        h2 {
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
-        }
-        .card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        input, textarea, select, button {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0 10px;
-            box-sizing: border-box;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table th, table td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-    </style>
+<style>
+    body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f7f6f3;
+        color: #2f3437;
+    }
+    header {
+        background: #ffffff;
+        padding: 20px 40px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    header h1 {
+        margin: 0;
+        font-size: 28px;
+    }
+    main {
+        max-width: 700px;
+        background: #ffffff;
+        margin: 40px auto;
+        padding: 40px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(15, 15, 15, 0.1);
+    }
+    h2 {
+        font-size: 20px;
+        margin-top: 40px;
+        margin-bottom: 16px;
+        font-weight: 600;
+    }
+    .card {
+        padding: 0;
+        margin-bottom: 40px;
+        border: none;
+    }
+    input, textarea, select {
+        width: 100%;
+        padding: 8px 12px;
+        margin: 5px 0 10px;
+        box-sizing: border-box;
+        border: 1px solid #d1d1d1;
+        border-radius: 3px;
+        font-size: 14px;
+    }
+    button {
+        background: #f2f3f5;
+        border: 1px solid #d1d1d1;
+        border-radius: 3px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+    button:hover {
+        background: #e3e4e6;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    table th, table td {
+        padding: 8px;
+        border-bottom: 1px solid #e3e4e6;
+        text-align: left;
+    }
+    table th {
+        font-weight: 600;
+    }
+</style>
 </head>
 <body>
     <header>
