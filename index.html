@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tennis Tracker</title>
-<style>
+    <style>
     body {
         font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
         margin: 0;
@@ -74,6 +74,24 @@
     table th {
         font-weight: 600;
     }
+    ul#todo-list {
+        list-style: none;
+        padding: 0;
+    }
+    ul#todo-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        background: #f7f6f3;
+        border: 1px solid #d1d1d1;
+        border-radius: 3px;
+        cursor: grab;
+    }
+    ul#todo-list li button {
+        margin-left: 10px;
+    }
 </style>
 </head>
 <body>
@@ -83,53 +101,58 @@
     <main>
         <section class="card" id="todo">
             <h2>To-do List</h2>
-            <p>Ajouter une tâche :</p>
-            <form>
-                <input type="text" placeholder="Nouvelle tâche" />
+            <form id="todo-form">
+                <input id="todo-input" type="text" placeholder="Nouvelle tâche" />
                 <button type="submit">Ajouter</button>
             </form>
-            <ul>
-                <li>Exemple de tâche 1</li>
-                <li>Exemple de tâche 2</li>
-            </ul>
-            <p><em>Note : les fonctions de glisser-déposer nécessitent du JavaScript ou un serveur.</em></p>
+            <ul id="todo-list"></ul>
         </section>
 
         <section class="card" id="players">
             <h2>Base de données joueurs</h2>
-            <form>
-                <input type="text" placeholder="Nom" />
-                <input type="text" placeholder="Classement" />
-                <textarea placeholder="Points forts, style de jeu"></textarea>
+            <form id="player-form">
+                <input id="player-name" type="text" placeholder="Nom" />
+                <input id="player-rank" type="text" placeholder="Classement" />
+                <textarea id="player-notes" placeholder="Points forts, style de jeu"></textarea>
                 <button type="submit">Enregistrer</button>
             </form>
-            <table>
-                <tr><th>Nom</th><th>Classement</th><th>Notes</th></tr>
-                <tr><td>Adversaire 1</td><td>-</td><td>Exemple</td></tr>
+            <table id="players-table">
+                <thead>
+                    <tr><th>Nom</th><th>Classement</th><th>Notes</th><th></th></tr>
+                </thead>
+                <tbody></tbody>
             </table>
-            <p><em>Cette section nécessite un traitement côté serveur pour sauvegarder les données.</em></p>
         </section>
 
         <section class="card" id="training">
             <h2>Journal d'entraînement</h2>
-            <form>
-                <input type="date" />
-                <input type="text" placeholder="Durée" />
-                <input type="text" placeholder="Intensité" />
-                <textarea placeholder="Notes"></textarea>
+            <form id="training-form">
+                <input id="training-date" type="date" />
+                <input id="training-duration" type="text" placeholder="Durée" />
+                <select id="training-type">
+                    <option value="Technique">Technique</option>
+                    <option value="Physique">Physique</option>
+                    <option value="Match">Match</option>
+                </select>
+                <textarea id="training-notes" placeholder="Notes"></textarea>
                 <button type="submit">Ajouter</button>
             </form>
-            <table>
-                <tr><th>Date</th><th>Durée</th><th>Intensité</th><th>Notes</th></tr>
-                <tr><td>--/--/----</td><td>--</td><td>--</td><td>Exemple</td></tr>
+            <table id="training-table">
+                <thead>
+                    <tr><th>Date</th><th>Durée</th><th>Type</th><th>Notes</th><th></th></tr>
+                </thead>
+                <tbody></tbody>
             </table>
-            <p><em>Les filtres et l'enregistrement des journaux nécessitent un traitement dynamique.</em></p>
         </section>
 
         <section class="card" id="stats">
             <h2>Suivi visuel</h2>
-            <p>Ici pourraient apparaître des graphiques (par exemple avec &lt;canvas&gt;). Ces éléments nécessitent du JavaScript ou un traitement côté serveur pour être générés.</p>
+            <canvas id="sessions-chart" height="200"></canvas>
+            <canvas id="types-chart" height="200"></canvas>
         </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
