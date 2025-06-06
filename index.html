@@ -52,6 +52,10 @@
       <h2 class="text-xl font-semibold mb-2">Sessions de la semaine</h2>
       <ul id="weekly-sessions" class="space-y-2"></ul>
     </section>
+    <section class="bg-gray-100 p-4 rounded-lg space-y-2">
+      <h2 class="text-xl font-semibold">Progression</h2>
+      <canvas id="progressChart" height="200"></canvas>
+    </section>
     <div class="grid md:grid-cols-2 gap-6">
       <a href="tasks.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors">
         <h2 class="text-xl font-semibold mb-2">Tâches</h2>
@@ -69,11 +73,9 @@
         <h2 class="text-xl font-semibold mb-2">Planning</h2>
         <p class="text-gray-600">Planifiez vos prochaines séances.</p>
       </a>
-      <a href="progression.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors md:col-span-2">
-        <h2 class="text-xl font-semibold mb-2">Progression</h2>
-        <p class="text-gray-600">Visualisez vos progrès au fil du temps.</p>
-      </a>
     </div>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
