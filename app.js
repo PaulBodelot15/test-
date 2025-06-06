@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoList = document.getElementById('todo-list');
     const todoSubmit = document.getElementById('todo-submit');
     const taskAlert = document.getElementById('task-alert');
+    if (todoForm) {
 
     function showAlert(message, color) {
         taskAlert.textContent = message;
@@ -145,10 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderTasks();
+    }
 
     // Player database
     const playerForm = document.getElementById('player-form');
     const playersTableBody = document.querySelector('#players-table tbody');
+
+    if (playerForm) {
 
     let players = JSON.parse(localStorage.getItem('players') || '[]');
     let editIndex = null;
@@ -203,12 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderPlayers();
+    }
 
     // Training journal
     const trainingForm = document.getElementById('training-form');
     const trainingTableBody = document.querySelector('#training-table tbody');
     const filterRange = document.getElementById('filter-range');
     const filterType = document.getElementById('filter-type');
+    const progressEl = document.getElementById('progressChart');
 
     let sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
 
@@ -218,18 +224,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getFilteredSessions() {
         let data = [...sessions];
-        if (filterRange.value) {
+        if (filterRange && filterRange.value) {
             const days = parseInt(filterRange.value, 10);
             const limit = Date.now() - days * 86400000;
             data = data.filter(s => new Date(s.date).getTime() >= limit);
         }
-        if (filterType.value !== 'all') {
+        if (filterType && filterType.value !== 'all') {
             data = data.filter(s => s.type === filterType.value);
         }
         return data;
     }
 
     function renderSessions() {
+        if (!trainingTableBody) return;
         trainingTableBody.innerHTML = '';
         getFilteredSessions().forEach((s, idx) => {
             const row = document.createElement('tr');
@@ -252,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    trainingForm.addEventListener('submit', e => {
+    if (trainingForm) trainingForm.addEventListener('submit', e => {
         e.preventDefault();
         const date = document.getElementById('training-date').value;
         const duration = document.getElementById('training-duration').value.trim();
@@ -266,22 +273,23 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCharts();
     });
 
-    filterRange.addEventListener('change', () => {
+    if (filterRange) filterRange.addEventListener('change', () => {
         renderSessions();
         updateCharts();
     });
-    filterType.addEventListener('change', () => {
+    if (filterType) filterType.addEventListener('change', () => {
         renderSessions();
         updateCharts();
     });
 
-    renderSessions();
+    if (trainingTableBody) renderSessions();
 
     // Charts
-    const progressCtx = document.getElementById('progressChart').getContext('2d');
+    const progressCtx = progressEl ? progressEl.getContext('2d') : null;
     let progressChart = null;
 
     function updateCharts() {
+        if (!progressCtx) return;
         const sessionsPerMonth = {};
         getFilteredSessions().forEach(s => {
             const month = s.date.substring(0,7); // YYYY-MM
@@ -301,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    updateCharts();
+    if (progressCtx) updateCharts();
 
     // Schedule calendar
     const calendarEl = document.getElementById('calendar');

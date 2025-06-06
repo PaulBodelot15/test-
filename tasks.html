@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tâches - Tennis Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-sans bg-gray-50 text-gray-800 flex">
+  <nav class="w-48 h-screen fixed left-0 top-0 bg-white shadow-md p-4 space-y-2">
+    <a href="index.html" class="block py-2 px-4 rounded hover:bg-blue-100 transition-colors">Accueil</a>
+    <a href="tasks.html" class="block py-2 px-4 rounded hover:bg-blue-100 transition-colors">Tâches</a>
+    <a href="joueurs.html" class="block py-2 px-4 rounded hover:bg-blue-100 transition-colors">Joueurs</a>
+    <a href="entrainements.html" class="block py-2 px-4 rounded hover:bg-blue-100 transition-colors">Entraînements</a>
+    <a href="planning.html" class="block py-2 px-4 rounded hover:bg-blue-100 transition-colors">Planning</a>
+    <a href="progression.html" class="block py-2 px-4 rounded hover:bg-blue-100 transition-colors">Progression</a>
+  </nav>
+  <main class="flex-1 ml-48 p-8 space-y-4">
+    <h1 class="text-2xl font-semibold">To-do List</h1>
+    <form id="todo-form" class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <input id="todo-title" type="text" placeholder="Titre" class="border rounded-md px-3 py-2" />
+      <input id="todo-category" type="text" placeholder="Catégorie" class="border rounded-md px-3 py-2" />
+      <select id="todo-priority" class="border rounded-md px-3 py-2">
+        <option value="">Priorité</option>
+        <option value="Haute">Haute</option>
+        <option value="Moyenne">Moyenne</option>
+        <option value="Basse">Basse</option>
+      </select>
+      <textarea id="todo-desc" placeholder="Description" class="border rounded-md px-3 py-2 md:col-span-2"></textarea>
+      <button id="todo-submit" type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 md:col-span-2">Ajouter</button>
+    </form>
+    <ul id="todo-list" class="space-y-2"></ul>
+    <div id="task-alert" class="fixed top-4 right-4 bg-green-500 text-white px-3 py-2 rounded shadow opacity-0 transition-opacity"></div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
