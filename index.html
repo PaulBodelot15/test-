@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -32,19 +33,31 @@
     <h1 class="text-3xl font-semibold">Tennis Tracker</h1>
     <section id="dashboard" class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-lg shadow">
-        <div id="metric-sessions" class="text-2xl font-semibold">0</div>
+        <div class="flex items-center text-2xl font-semibold">
+          <span class="material-symbols-outlined mr-2">sports_tennis</span>
+          <span id="metric-sessions">0</span>
+        </div>
         <div class="text-gray-600">Sessions jouées</div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <div id="metric-time" class="text-2xl font-semibold">0</div>
+        <div class="flex items-center text-2xl font-semibold">
+          <span class="material-symbols-outlined mr-2">schedule</span>
+          <span id="metric-time">0</span>
+        </div>
         <div class="text-gray-600">Temps total</div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <div id="metric-tasks" class="text-2xl font-semibold">0</div>
+        <div class="flex items-center text-2xl font-semibold">
+          <span class="material-symbols-outlined mr-2">task_alt</span>
+          <span id="metric-tasks">0</span>
+        </div>
         <div class="text-gray-600">Tâches en cours</div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <div id="metric-players" class="text-2xl font-semibold">0</div>
+        <div class="flex items-center text-2xl font-semibold">
+          <span class="material-symbols-outlined mr-2">groups</span>
+          <span id="metric-players">0</span>
+        </div>
         <div class="text-gray-600">Joueurs rencontrés</div>
       </div>
     </section>
@@ -54,23 +67,38 @@
     </section>
     <div class="grid md:grid-cols-2 gap-6">
       <a href="tasks.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors">
-        <h2 class="text-xl font-semibold mb-2">Tâches</h2>
+        <h2 class="flex items-center text-xl font-semibold mb-2">
+          <span class="material-symbols-outlined mr-2">task_alt</span>
+          Tâches
+        </h2>
         <p class="text-gray-600">Gérez vos tâches quotidiennes.</p>
       </a>
       <a href="joueurs.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors">
-        <h2 class="text-xl font-semibold mb-2">Joueurs</h2>
+        <h2 class="flex items-center text-xl font-semibold mb-2">
+          <span class="material-symbols-outlined mr-2">groups</span>
+          Joueurs
+        </h2>
         <p class="text-gray-600">Suivez vos adversaires et partenaires.</p>
       </a>
       <a href="entrainements.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors">
-        <h2 class="text-xl font-semibold mb-2">Entraînements</h2>
+        <h2 class="flex items-center text-xl font-semibold mb-2">
+          <span class="material-symbols-outlined mr-2">sports_tennis</span>
+          Entraînements
+        </h2>
         <p class="text-gray-600">Consignez vos séances.</p>
       </a>
       <a href="planning.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors">
-        <h2 class="text-xl font-semibold mb-2">Planning</h2>
+        <h2 class="flex items-center text-xl font-semibold mb-2">
+          <span class="material-symbols-outlined mr-2">event</span>
+          Planning
+        </h2>
         <p class="text-gray-600">Planifiez vos prochaines séances.</p>
       </a>
       <a href="progression.html" class="block bg-white p-6 rounded-lg shadow hover:bg-blue-50 transition-colors md:col-span-2">
-        <h2 class="text-xl font-semibold mb-2">Progression</h2>
+        <h2 class="flex items-center text-xl font-semibold mb-2">
+          <span class="material-symbols-outlined mr-2">trending_up</span>
+          Progression
+        </h2>
         <p class="text-gray-600">Visualisez vos progrès au fil du temps.</p>
       </a>
     </div>
